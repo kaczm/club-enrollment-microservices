@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.bp.org" xmlns:tns="http://www.bp.org"
+	elementFormDefault="qualified" xmlns:bpt="http://www.bp.org/types">
+
+	<import schemaLocation="bpTypes.xsd"
+		namespace="http://www.bp.org/types" />
+
+	<element name="enrollClubRequest">
+		<complexType>
+			<sequence>
+				<element name="person" type="bpt:Person" />
+				<element name="club" type="bpt:Club" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="enrollClubResponse" type="bpt:EnrollmentInfo" />
+
+	<element name="cancelEnrollRequest">
+		<complexType>
+			<attribute name="enrollmentId" type="int" />
+		</complexType>
+	</element>
+
+	<element name="cancelEnrollResponse" type="bpt:EnrollmentInfo" />
+
+	<element name="clubFault" type="bpt:Fault"/>
+	
+	
+</schema>

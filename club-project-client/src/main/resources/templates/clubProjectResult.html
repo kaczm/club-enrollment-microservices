@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>Club project result</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Result</h1>
+    <p th:text="'id: ' + ${clubResponse.id}" />
+    <p th:text="'parkingResponse transactionId: ' + ${clubResponse.parkingResponse.transactionId} ?: 'null'" />
+    <p th:text="'parkingResponse valid: ' + ${clubResponse.parkingResponse.valid}?: 'null'" />
+    <p th:text="'enrollmentInfo id: ' + ${clubResponse.enrollmentInfo.id}?: 'null'" />
+    <p th:text="'enrollmentInfo cost: ' + ${clubResponse.enrollmentInfo.cost}?: 'null'" />
+    <a href="/enroll">Submit another enrollment</a>
+</body>
+</html>

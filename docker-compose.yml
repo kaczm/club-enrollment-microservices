@@ -1,0 +1,78 @@
+version: '2'
+networks:
+  aznu:
+    driver: bridge
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - aznu
+  kafka:
+    image: wurstmeister/kafka 
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - aznu
+  gateway:
+    image: aznu/club-project
+    ports:
+      - "8090:8090"
+    depends_on:
+      - kafka
+    environment:
+      CLUB_KAFKA_SERVER: kafka:9092
+      CLUB_SERVICE_TYPE: gateway
+    networks:
+      - aznu
+  enrollment:
+    image: aznu/club-project
+    depends_on:
+      - kafka
+    environment:
+      CLUB_KAFKA_SERVER: kafka:9092
+      CLUB_SERVICE_TYPE: enrollment
+      CLUB_KAFKA_SOAP: clubenrollment:8070
+    networks:
+      - aznu
+  parking:
+    image: aznu/club-project
+    depends_on:
+      - kafka
+    environment:
+      CLUB_KAFKA_SERVER: kafka:9092
+      CLUB_SERVICE_TYPE: parking
+    networks:
+      - aznu
+  createResponse:
+    image: aznu/club-project
+    depends_on:
+      - kafka
+    environment:
+      CLUB_KAFKA_SERVER: kafka:9092
+      CLUB_SERVICE_TYPE: createResponse
+    networks:
+      - aznu
+  clubenrollment:
+    image: aznu/club-enrollment
+    ports:
+      - "8070:8070"
+    networks:
+      - aznu
+  clubprojectclient:
+    image: aznu/club-project-client
+    environment:
+      KAFKA_GATEWAY_ADDRESS: gateway:8090
+    ports:
+      - "8076:8076"
+    networks:
+      - aznu
+ 

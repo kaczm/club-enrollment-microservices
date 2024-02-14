@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:tns="http://www.bp.org/club/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="club"
+	targetNamespace="http://www.bp.org/club/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:bp="http://www.bp.org">
+
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.bp.org/">
+			<xsd:import schemaLocation="club.xsd"
+				namespace="http://www.bp.org" />
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="enrollClubRequestMsg">
+		<wsdl:part element="bp:enrollClubRequest" name="payload" />
+	</wsdl:message>
+
+	<wsdl:message name="enrollClubResponseMsg">
+		<wsdl:part element="bp:enrollClubResponse" name="payload" />
+	</wsdl:message>
+
+	<wsdl:message name="cancelEnrollRequestMsg">
+		<wsdl:part element="bp:cancelEnrollRequest" name="payload" />
+	</wsdl:message>
+	<wsdl:message name="cancelEnrollResponseMsg">
+		<wsdl:part element="bp:cancelEnrollResponse" name="payload" />
+	</wsdl:message>
+
+	<wsdl:message name="clubFaultMsg">
+		<wsdl:part element="bp:clubFault" name="payload" />
+	</wsdl:message>
+
+	<wsdl:portType name="ClubEnrollment">
+		<wsdl:operation name="enrollClub">
+			<wsdl:input message="tns:enrollClubRequestMsg" />
+			<wsdl:output message="tns:enrollClubResponseMsg" />
+			<wsdl:fault message="tns:clubFaultMsg" name="clubFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="cancelEnroll">
+			<wsdl:input message="tns:cancelEnrollRequestMsg" />
+			<wsdl:output message="tns:cancelEnrollResponseMsg" />
+			<wsdl:fault message="tns:clubFaultMsg" name="clubFault" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="ClubEnrollmentSOAP"
+		type="tns:ClubEnrollment">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<wsdl:operation name="enrollClub">
+			<soap:operation
+				soapAction="http://www.bp.org/club/enrollClub" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="clubFault">
+				<soap:fault name="clubFault" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="cancelEnroll">
+			<soap:operation
+				soapAction="http://www.bp.org/club/cancelEnroll" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="clubFault">
+				<soap:fault name="clubFault" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="ClubEnrollmentService">
+		<wsdl:port binding="tns:ClubEnrollmentSOAP"
+			name="ClubEnrollmentPort">
+			<soap:address location="http://www.bp.org/club/" />
+		</wsdl:port>
+	</wsdl:service>
+
+	<soap:address location="http://www.bp.org/club/" />
+
+</wsdl:definitions>
+	

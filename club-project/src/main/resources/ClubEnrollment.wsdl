@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns2="http://www.bp.org" xmlns:ns1="http://www.bp.org/club/" name="ClubEnrollment" targetNamespace="http://www.bp.org/club/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.bp.org/types" elementFormDefault="qualified" targetNamespace="http://www.bp.org/types" version="1.0">
+
+  <xs:complexType name="EnrollmentInfo">
+    <xs:sequence>
+      <xs:element name="id" type="xs:int"/>
+      <xs:element name="cost" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Fault">
+    <xs:sequence>
+      <xs:element name="code" type="xs:int"/>
+      <xs:element name="text" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Person">
+    <xs:sequence>
+      <xs:element name="firstName" type="xs:string"/>
+      <xs:element name="lastName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Club">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="address" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Enrollment">
+    <xs:sequence>
+      <xs:element name="for" type="tns:Person"/>
+      <xs:element name="to" type="tns:Club"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PaymentCard">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="number" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.bp.org/types" elementFormDefault="qualified" targetNamespace="http://www.bp.org" version="1.0">
+
+  <xs:import namespace="http://www.bp.org/types"/>
+
+  <xs:element name="cancelEnrollRequest">
+    <xs:complexType>
+      <xs:sequence/>
+      <xs:attribute name="enrollmentId" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="cancelEnrollResponse" type="ns1:EnrollmentInfo"/>
+
+  <xs:element name="clubFault" type="ns1:Fault"/>
+
+  <xs:element name="enrollClubRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="person" type="ns1:Person"/>
+        <xs:element name="club" type="ns1:Club"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="enrollClubResponse" type="ns1:EnrollmentInfo"/>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="cancelEnroll">
+    <wsdl:part element="ns2:cancelEnrollRequest" name="payload">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ClubFaultMsg">
+    <wsdl:part element="ns2:clubFault" name="ClubFaultMsg">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="enrollClub">
+    <wsdl:part element="ns2:enrollClubRequest" name="payload">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="enrollClubResponse">
+    <wsdl:part element="ns2:enrollClubResponse" name="payload">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelEnrollResponse">
+    <wsdl:part element="ns2:cancelEnrollResponse" name="payload">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ClubEnrollment">
+    <wsdl:operation name="cancelEnroll">
+      <wsdl:input message="ns1:cancelEnroll" name="cancelEnroll">
+    </wsdl:input>
+      <wsdl:output message="ns1:cancelEnrollResponse" name="cancelEnrollResponse">
+    </wsdl:output>
+      <wsdl:fault message="ns1:ClubFaultMsg" name="ClubFaultMsg">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="enrollClub">
+      <wsdl:input message="ns1:enrollClub" name="enrollClub">
+    </wsdl:input>
+      <wsdl:output message="ns1:enrollClubResponse" name="enrollClubResponse">
+    </wsdl:output>
+      <wsdl:fault message="ns1:ClubFaultMsg" name="ClubFaultMsg">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>
